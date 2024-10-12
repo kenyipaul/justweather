@@ -1,0 +1,25 @@
+.navbar {
+    padding: 1rem;
+
+    nav {
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        border-radius: 1rem;
+        backdrop-filter: blur(2rem);
+        background: $transparent-dark;
+        justify-content: space-between;
+        outline: 1px solid $light-dark;
+    
+        svg {
+            color: #fff;
+            cursor: pointer;
+        }
+
+        h1 {
+            color: #fff;
+
+            span { color: $primary-theme; }
+        }
+    }
+}

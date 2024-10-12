@@ -1,0 +1,48 @@
+.footer {
+    margin: 1rem 0;
+
+    .top-bar {
+        gap: 1rem;
+        display: flex;
+        padding: 0 1rem;
+        align-items: center;
+
+        p {
+            color: #fff;
+            font-size: 1.3em;
+            cursor: pointer;
+        }
+    }
+
+    .forecast-container {
+        gap: .5rem;
+        display: grid;
+
+        h1 {
+            color: #fff;
+            margin: 0 1rem;
+        }
+
+        .forecast-list {
+            gap: .5rem;
+            display: flex;
+            padding: .5rem 1rem;
+            align-items: center;
+            overflow-x: scroll;
+
+            .forecast {
+                height: 150px;
+                padding: 1rem;
+                display: flex;
+                min-width: 120px;
+                align-items: center;
+                border-radius: 1rem;
+                flex-direction: column;
+                backdrop-filter: blur(2rem);
+                background: $transparent-dark;
+                outline: 1px solid $light-dark;
+            }
+        }
+
+    }
+}
