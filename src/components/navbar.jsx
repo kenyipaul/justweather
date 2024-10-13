@@ -1,9 +1,31 @@
-import { useState } from "react"
+/* eslint-disable no-unused-vars */
+import axios from "axios"
+import { useContext, useRef, useState } from "react"
+import { WeatherDataContext } from "../app"
 
 export default function Navbar() {
 
+    const searchRef = useRef()
     const [searchBar, setSearchBar] = useState(false)
     const [menuState, setMenuState] = useState(false)
+    const [weatherData, setWeatherData] = useContext(WeatherDataContext)
+
+    const searchWeather = (ev) => {
+        ev.preventDefault();
+        let searchValue = searchRef.current.value
+        let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${searchValue}?unitGroup=metric&key=BNPU8J67RVZMAC83RTLU25THJ`
+
+        axios({
+            method: 'GET',
+            url: url,
+        }).then((response) => {
+            console.log(response.data)
+            setWeatherData(response.data)
+        }).finally(() => {
+            setMenuState(false)
+            setSearchBar(false)
+        })
+    }
 
     return (
         <section className="navbar">
@@ -22,11 +44,11 @@ export default function Navbar() {
                 </div>
                 <h1>JUST<span>WEATHER</span></h1>
                 { searchBar ?
-                <div className="input-area">
+                <form onSubmit={searchWeather} className="input-area">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12zm6.32-1.094 3.58 3.58a1 1 0 1 1-1.415 1.413l-3.58-3.58a8 8 0 1 1 1.414-1.414z"/></svg>
-                    <input type="text" placeholder="Search city"/>
+                    <input ref={searchRef} type="text" placeholder="Search city"/>
                     <svg onClick={() => setSearchBar(false)} xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 24 24" width="24" height="24" fill="currentColor"><path d="m7.314 5.9 3.535-3.536A1 1 0 1 0 9.435.95L5.899 4.485 2.364.95A1 1 0 1 0 .95 2.364l3.535 3.535L.95 9.435a1 1 0 1 0 1.414 1.414l3.535-3.535 3.536 3.535a1 1 0 1 0 1.414-1.414L7.314 5.899z"/></svg>
-                </div> : null
+                </form> : null
                 }
                 <svg onClick={() => setSearchBar(!searchBar)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path fillRule="evenodd" clipRule="evenodd" d="M4 11C4 7.13401 7.13401 4 11 4C14.866 4 18 7.13401 18 11C18 14.866 14.866 18 11 18C7.13401 18 4 14.866 4 11ZM11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C13.125 20 15.078 19.2635 16.6177 18.0319L20.2929 21.7071C20.6834 22.0976 21.3166 22.0976 21.7071 21.7071C22.0976 21.3166 22.0976 20.6834 21.7071 20.2929L18.0319 16.6177C19.2635 15.078 20 13.125 20 11C20 6.02944 15.9706 2 11 2Z" fill="currentColor"/> </svg>
             </nav>

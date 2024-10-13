@@ -1,8 +1,11 @@
-import { useState } from "react"
+/* eslint-disable react/prop-types */
+import { useContext, useState } from "react"
+import { WeatherDataContext } from "../app"
 
 export default function Forecasts() {
 
     const [tab, setTab] = useState(0)
+    const [weatherData, setWeatherData] = useContext(WeatherDataContext)
 
     function swipeLeft() {
         let list = document.querySelector(".forecast-list")
@@ -30,19 +33,22 @@ export default function Forecasts() {
                 </div>
                 { tab == 0 ?
                     <div className="forecast-list">
-                        <Forecast />
-                        <Forecast />
-                        <Forecast />
-                        <Forecast />
-                        <Forecast />
-                        <Forecast />
-                        <Forecast />
+                        {
+                            weatherData.days ? 
+                                weatherData.days[0].hours.map((data, key) => {
+                                    return <HourCast key={key} data={data} />
+                                })
+                            : null
+                        }
                     </div> :
                     <div className="forecast-list">
-                        <Forecast />
-                        <Forecast />
-                        <Forecast />
-                        <Forecast />
+                        {
+                            weatherData.days ? 
+                                weatherData.days.map((data, key) => {
+                                    return <WeekCast key={key} data={data} />
+                                })
+                            : null
+                        }
                     </div>
                 }
             </div>
@@ -51,12 +57,26 @@ export default function Forecasts() {
     )
 }
 
-function Forecast() {
+function HourCast(props) {
+
     return (
         <div className="forecast">
-            <p>10/13/24</p>
+            <p>{props.data.datetime}</p>
             <img src="/assets/cloudy.png" alt="" />
-            <h1>80 °C</h1>
+            <h1>{props.data.temp} °C</h1>
+        </div>
+    )
+}
+
+function WeekCast(props) {
+
+    let date = new Date(props.data.datetime).toLocaleDateString('us', {dateStyle: 'medium'})
+
+    return (
+        <div className="forecast">
+            <p>{date}</p>
+            <img src="/assets/cloudy.png" alt="" />
+            <h1>{props.data.temp} °C</h1>
         </div>
     )
 }
