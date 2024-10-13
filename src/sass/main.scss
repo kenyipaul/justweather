@@ -3,10 +3,32 @@
 @import "./banner";
 @import "./footer";
 
-#app {
-    margin: auto;
+body {
     height: 100vh;
-    max-width: 900px;
-    // max-height: 840px;
+    overflow: hidden;
+    background: $darker;
+    background-image: radial-gradient(#0077ff20 50%, $darker, $darker);
+}
+
+#root { width: 100%; }
+
+#app {
+    width: 100%;
+    margin: auto;
     overflow-y: scroll;
+}
+
+
+@media (min-width: 800px) {
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #app {
+        width: 100%;
+        max-width: 800px;
+    }
+    
 }

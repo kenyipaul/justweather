@@ -1,48 +1,20 @@
 * {
     margin: 0;
     padding: 0;
+    user-select: none;
     scrollbar-width: none;
+    scroll-behavior: smooth;
     box-sizing: border-box;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
     font-family: geogrotesque, roboto, sans-serif;
 }
 
-$primary-theme: #9900ff;
+$primary-theme: #00a2ff;
 $secondary-theme: #ea00ff;
 $primary-theme-white: #fdfaff;
 
 $dark: #282f38;
 $darker: #20252c;
 $transparent-dark: #20252c90;
-$light-dark: #3b4450;
-
-body {
-    height: 100vh;
-    overflow: hidden;
-    background: $darker;
-
-    &::before {
-        content: "";
-        top: -5rem;
-        left: -5rem;
-        width: 300px;
-        height: 300px;
-        filter: blur(1rem);
-        border-radius: 50%;
-        position: absolute;
-        background: $primary-theme;
-        z-index: -1;
-    }
-    
-    &::after {
-        content: "";
-        bottom: -5rem;
-        right: -5rem;
-        width: 300px;
-        height: 300px;
-        filter: blur(1rem);
-        border-radius: 50%;
-        position: absolute;
-        background: $secondary-theme;
-        z-index: -1;
-    }
-}
+$light-dark: #313842;

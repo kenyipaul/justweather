@@ -2,15 +2,45 @@
     margin: 1rem 0;
 
     .top-bar {
-        gap: 1rem;
         display: flex;
-        padding: 0 1rem;
         align-items: center;
+        justify-content: space-between;
 
-        p {
-            color: #fff;
-            font-size: 1.3em;
-            cursor: pointer;
+        div {
+            padding-right: 1rem;
+
+            &:nth-child(1) {
+                gap: 1rem;
+                display: flex;
+                padding: 0 1rem;
+                align-items: center;
+                
+                p {
+                    color: #fff;
+                    cursor: pointer;
+                    font-size: 1.1em;
+
+                    &:hover {
+                        color: $primary-theme;
+                    }
+
+                    &.active { color: $primary-theme; }
+                }
+            
+            }
+
+            &:nth-child(2) {
+                gap: 1.5rem;
+                display: flex;
+                align-items: center;
+
+                svg {
+                    fill: #ccc;
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    cursor: pointer;
+                }
+            }
         }
     }
 
@@ -31,16 +61,30 @@
             overflow-x: scroll;
 
             .forecast {
-                height: 150px;
+                height: 170px;
                 padding: 1rem;
                 display: flex;
-                min-width: 120px;
+                min-width: 140px;
                 align-items: center;
                 border-radius: 1rem;
                 flex-direction: column;
                 backdrop-filter: blur(2rem);
                 background: $transparent-dark;
                 outline: 1px solid $light-dark;
+                justify-content: space-between;
+
+                p {
+                    color: #ccc;
+                }
+
+                img {
+                    width: 4rem;
+                    height: 4rem;
+                }
+
+                h1 {
+                    font-family: roboto;
+                }
             }
         }
 
