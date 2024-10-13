@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useContext, useState } from "react"
 import { WeatherDataContext } from "../app"
@@ -62,8 +63,9 @@ function HourCast(props) {
     return (
         <div className="forecast">
             <p>{props.data.datetime}</p>
-            <img src="/assets/cloudy.png" alt="" />
+            <img src={`/assets/${props.data.icon}.png`} alt={`${props.data.conditions}`} />
             <h1>{props.data.temp} °C</h1>
+            {/* <p>{props.data.conditions}</p> */}
         </div>
     )
 }
@@ -75,8 +77,9 @@ function WeekCast(props) {
     return (
         <div className="forecast">
             <p>{date}</p>
-            <img src="/assets/cloudy.png" alt="" />
+            <img src={`/assets/${props.data.icon}.png`} alt={`${props.data.conditions}`} />
             <h1>{props.data.temp} °C</h1>
+            {/* <p>{props.data.conditions}</p> */}
         </div>
     )
 }

@@ -25,6 +25,8 @@ export default function Navbar() {
             setMenuState(false)
             setSearchBar(false)
         })
+
+        localStorage.setItem('_just_city', searchValue)
     }
 
     return (

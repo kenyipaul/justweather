@@ -27,6 +27,11 @@
             }
             
             &:nth-child(2) {
+                gap: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
                 h1 {
                     color: #fff;
                     font-size: 3em;
@@ -42,8 +47,14 @@
                     color: #ccc;
                     font-size: 1.1em;
                     margin-top: 1rem;
-                    max-width: 500px;
+                    max-width: 450px;
                     font-family: geogrotesque;
+                }
+
+                img {
+                    width: 8rem;
+                    height: 8rem;
+                    display: none;
                 }
             }
 
@@ -117,6 +128,10 @@
         gap: .5rem;
         grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     }
+
+    .banner-container .banner div:nth-child(2) img {
+        display: block;
+    }
 }
 
 @media (min-width: 575px) {
@@ -158,5 +173,13 @@
             height: 2.5rem;
         }
         
+    }
+
+    .banner-container .banner div:nth-child(2) {
+        padding-right: 2rem;
+    }
+    .banner-container .banner div:nth-child(2) img {
+        width: 10rem;
+        height: 10rem;
     }
 }
