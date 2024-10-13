@@ -73,10 +73,14 @@
 
             input {
                 width: 100%;
+                color: #fff;
                 border: none;
                 outline: none;
+                font-size: 1em;
                 padding: 1rem 3rem;
                 border-radius: 1rem;
+                background: $darker;
+                border: 1px solid $light-dark;
             }
 
             svg {

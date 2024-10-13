@@ -29,7 +29,7 @@ export default function App() {
             setWeatherData(response.data)
         })
 
-    }, [])
+    }, [weatherData, setWeatherData])
 
     return (
         <WeatherDataContext.Provider value={[weatherData, setWeatherData]}>

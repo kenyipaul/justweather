@@ -15,6 +15,14 @@ export default function Navbar() {
         let searchValue = searchRef.current.value
         let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${searchValue}?unitGroup=metric&key=BNPU8J67RVZMAC83RTLU25THJ`
 
+       fetchData(searchValue)
+
+        localStorage.setItem('_just_city', searchValue)
+    }
+
+    const fetchData = (location) => {
+        let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=BNPU8J67RVZMAC83RTLU25THJ`
+
         axios({
             method: 'GET',
             url: url,
@@ -25,8 +33,46 @@ export default function Navbar() {
             setMenuState(false)
             setSearchBar(false)
         })
+    }
 
-        localStorage.setItem('_just_city', searchValue)
+
+    const useMyLocation = () => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(async function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                axios({
+                    method: 'GET',
+                    url: `https://us1.locationiq.com/v1/reverse?key=pk.ed14637b2fa77c15c923dd24133a81b1&lat=${latitude}&lon=${longitude}&format=json`
+                }).then((response) => {
+                    if (response.data.address) {
+                        let address = response.data.address;
+                        console.log(address.county)
+                        localStorage.setItem('_just_city', JSON.stringify(address.country + ', ' + address.state))
+                    }
+                })
+
+                let savedLocation = localStorage.getItem('_just_city')
+                fetchData(savedLocation)
+    
+            }, function(error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("User denied the request for geolocation.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        alert("Location information is unavailable.");
+                        break;
+                    case error.TIMEOUT:
+                        alert("The request to get user location timed out.");
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        alert("An unknown error occurred.");
+                        break;
+                }
+            })
+        }
     }
 
     return (
@@ -34,7 +80,9 @@ export default function Navbar() {
 
             <nav>
                 <div className="menu-area">
-                    <svg onClick={() => setMenuState(!menuState)} fill="currentColor" width="24" height="24" viewBox="0 0 24 24" className="menuBar" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg"><path id="primary" d="M3,12H21M9,18H21M3,6H15" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"></path></svg>
+                    <svg width="24px" onClick={useMyLocation} height="24px" className="locationBtn" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"> <title>Use my location</title> <defs></defs> <g id="Bold-Outline" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="location" fillRule="nonzero" fill="currentColor"> <path d="M13.2729298,23.2555492 C12.5338757,23.8654009 11.466124,23.8654008 10.7270701,23.2555491 C5.2769456,18.758223 2.5,14.3495105 2.5,10 C2.5,4.75329488 6.75329488,0.5 12,0.5 C17.2467051,0.5 21.5,4.75329488 21.5,10 C21.5,14.3495105 18.7230544,18.758223 13.2729298,23.2555492 Z M19.5,10 C19.5,5.85786438 16.1421356,2.5 12,2.5 C7.85786438,2.5 4.5,5.85786438 4.5,10 C4.5,13.6443863 6.96541108,17.5585028 12.0000001,21.712938 C17.0345889,17.5585029 19.5,13.6443863 19.5,10 Z M12,13 C9.790861,13 8,11.209139 8,9 C8,6.790861 9.790861,5 12,5 C14.209139,5 16,6.790861 16,9 C16,11.209139 14.209139,13 12,13 Z M12,11 C13.1045695,11 14,10.1045695 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,10.1045695 10.8954305,11 12,11 Z" id="shape"></path> </g> </g> </svg>
+                    {/* <svg width="20" height="20" version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enableBackground="new 0 0 64 64" xmlSpace="preserve"> <path fill="currentColor" d="M32,0C18.746,0,8,10.746,8,24c0,5.219,1.711,10.008,4.555,13.93c0.051,0.094,0.059,0.199,0.117,0.289l16,24 C29.414,63.332,30.664,64,32,64s2.586-0.668,3.328-1.781l16-24c0.059-0.09,0.066-0.195,0.117-0.289C54.289,34.008,56,29.219,56,24 C56,10.746,45.254,0,32,0z M32,32c-4.418,0-8-3.582-8-8s3.582-8,8-8s8,3.582,8,8S36.418,32,32,32z"/> </svg> */}
+                    {/* <svg onClick={() => setMenuState(!menuState)} fill="currentColor" width="24" height="24" viewBox="0 0 24 24" className="menuBar" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg"><path id="primary" d="M3,12H21M9,18H21M3,6H15" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"></path></svg>
                     { menuState ?
                     <div className="menu">
                         <ul>
@@ -42,7 +90,7 @@ export default function Navbar() {
                             <li><svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"> <title>Bold/SVG/location</title> <desc>Created with Sketch.</desc> <defs></defs> <g id="Bold-Outline" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="location" fillRule="nonzero" fill="currentColor"> <path d="M13.2729298,23.2555492 C12.5338757,23.8654009 11.466124,23.8654008 10.7270701,23.2555491 C5.2769456,18.758223 2.5,14.3495105 2.5,10 C2.5,4.75329488 6.75329488,0.5 12,0.5 C17.2467051,0.5 21.5,4.75329488 21.5,10 C21.5,14.3495105 18.7230544,18.758223 13.2729298,23.2555492 Z M19.5,10 C19.5,5.85786438 16.1421356,2.5 12,2.5 C7.85786438,2.5 4.5,5.85786438 4.5,10 C4.5,13.6443863 6.96541108,17.5585028 12.0000001,21.712938 C17.0345889,17.5585029 19.5,13.6443863 19.5,10 Z M12,13 C9.790861,13 8,11.209139 8,9 C8,6.790861 9.790861,5 12,5 C14.209139,5 16,6.790861 16,9 C16,11.209139 14.209139,13 12,13 Z M12,11 C13.1045695,11 14,10.1045695 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,10.1045695 10.8954305,11 12,11 Z" id="shape"></path> </g> </g> </svg> Use My Location</li>
                         </ul>
                     </div> : null
-                    }   
+                    }    */}
                 </div>
                 <h1>JUST<span>WEATHER</span></h1>
                 { searchBar ?
